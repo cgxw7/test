@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>我的第一个网页</title>
+    <style>
+        body {
+            background-color: lightblue;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: navy;
+            text-align: center;
+        }
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        img {
+            display: block;
+            margin: 0 auto;
+            max-width: 25%;
+            height: auto;
+            transition: max-width 0.3s ease-in-out, height 0.3s ease-in-out; /* 添加过渡效果 */
+        }
+        table {
+            width: 50%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: left;
+        }
+        button {
+            display: block;
+            margin: 20px auto; /* 修改这里的 margin */
+            padding: 10px 20px;
+            font-size: 18px;
+            color: white;
+            background-color: navy;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .tooltip {
+            position: absolute;
+            visibility: hidden;
+            background-color: navy;
+            color: white;
+            border-radius: 5px;
+            padding: 5px;
+            z-index: 1000;
+            white-space: nowrap;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20%; 
+            left: 80%; 
+            transform: translate(-50%, -50%); /* 确保绝对居中 */
+            background-color: #ADD8E6; /* 粉蓝色 */
+            color: white;
+            border-radius: 5px;
+            padding: 20px; /* 增大内边距 */
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            font-size: 80px; /* 增大字体大小 */
+        }
+
+        /* 新增木鱼容器 */
+        .fish-container {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <h1>啥也不会就在这里乱搞</h1>
+    <p>樱花飘落的速度是秒速五厘米，那么两颗心需要多久才能靠近
+-----《秒速五厘米》。</p>
+    <p>要不你没事儿去看看B站吧 <a href="https://www.bilibili.com/">我是B站</a></p>
+    
+    <img id="myImage" src="https://nimg.ws.126.net/?url=http%3A%2F%2Fdingyue.ws.126.net%2F2024%2F0415%2Ffd64eadaj00sbz87j001rd200u000u0g00fm00fm.jpg&thumbnail=660x2147483647&quality=80&type=jpg" alt="描述这张图片的文字">
+
+    <div class="tooltip" id="tooltip">打它</div>
+
+    <div class="notification" id="notification"></div>
+
+    <!-- 包裹木鱼图片的新容器 -->
+    <div class="fish-container">
+        <img id="myFish" src="https://bkimg.cdn.bcebos.com/pic/caef76094b36acaf3980f66e76d98d1001e99c3b?x-bce-process=image/format,f_auto/watermark,image_d2F0ZXIvYmFpa2UyNzI,g_7,xp_5,yp_5,P_20/resize,m_lfit,limit_1,h_1080" alt="点击这里" style="max-width: 10%; height: auto;">
+    </div>
+
+    <script>
+        var img = document.getElementById('myImage');
+        var fishImg = document.getElementById('myFish'); // 新增木鱼图片引用
+        var tooltip = document.getElementById('tooltip');
+        var notification = document.getElementById('notification');
+        var clickCount = 0; // 记录点击次数
+        var isSmall = false; // 跟踪图片是否处于缩小状态
+
+        img.onmouseover = function(event) {
+            tooltip.style.visibility = 'visible';
+            tooltip.style.left = (event.pageX + 10) + 'px';
+            tooltip.style.top = (event.pageY - 10) + 'px';
+        };
+
+        img.onmousemove = function(event) {
+            tooltip.style.left = (event.pageX + 10) + 'px';
+            tooltip.style.top = (event.pageY - 10) + 'px';
+        };
+
+        img.onmouseout = function() {
+            tooltip.style.visibility = 'hidden';
+        };
+
+        // 图片点击处理函数
+        img.onclick = function() {
+            // 切换图片大小
+            toggleImageSize(img);
+
+            // 显示通知框
+            clickCount--; // 减少点击次数
+            updateNotification(clickCount);
+        };
+
+        // 木鱼图片点击处理函数
+        fishImg.onclick = function() {
+            // 不需要切换图片大小
+            clickCount++; // 增加点击次数
+            updateNotification(clickCount);
+        };
+
+        // 切换图片大小
+        function toggleImageSize(element) {
+            if (isSmall) {
+                element.style.maxWidth = '25%';
+                element.style.height = 'auto';
+                isSmall = false;
+            } else {
+                element.style.maxWidth = '20%';
+                element.style.height = 'auto';
+                isSmall = true;
+            }
+        }
+
+        // 更新通知框并显示
+        function updateNotification(count) {
+            notification.textContent = '功德' + (count >= 0 ? '+' : '-') + Math.abs(count);
+            notification.style.opacity = 1;
+
+            // 一段时间后隐藏通知框
+            setTimeout(function() {
+                notification.style.opacity = 0;
+            }, 1000); // 1秒后隐藏
+        }
+    </script>
+    <p>来做一个测试吧，测一测你的饮食习惯，推测你的人格。<a href="test.html">一个超级准的测试！</a></p>
+    <p>                                                                                   电子木鱼：</p>
+</body>
+</html>
